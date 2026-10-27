@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour
     public KeyCode right = KeyCode.D;
     public KeyCode turnLeft = KeyCode.Q;
     public KeyCode turnRight = KeyCode.E;
+    public KeyCode run = KeyCode.LeftShift;
     
     PlayerController controller;
 
@@ -25,8 +26,14 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetKeyUp(left)) controller.MoveLeft();
         if (Input.GetKeyUp(right)) controller.MoveRight();
         if (Input.GetKeyUp(turnLeft)) controller.RotateLeft();
-
         if (Input.GetKeyUp(turnRight)) controller.RotateRight();
-        
+        if (Input.GetKey(run))
+        { 
+            controller.Run();
+        }
+        else
+        {
+            controller.Slow();
+        }
     }
 }
