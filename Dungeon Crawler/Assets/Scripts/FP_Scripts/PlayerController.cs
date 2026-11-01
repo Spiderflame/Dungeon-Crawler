@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
         } else
         {
             targetGridPos = currGridPos;
+            //TODO: Bounce against wall or make sound
         }
 
         if((targetRotation.y > 270f) && (targetRotation.y < 361f)) {targetRotation.y = 0f;}
