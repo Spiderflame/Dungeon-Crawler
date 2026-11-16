@@ -50,7 +50,17 @@ public class HeroStateMachine : MonoBehaviour
                 heroTurn();
             break;
             case(HeroPhase.EXECUTE):
-                
+                //TODO: Remove Buttons
+                queuedActionList.Sort((a, b) => a.user.speed.CompareTo(b.user.speed));
+                queuedActionList.Reverse();
+                while (queuedActionList.Count > 0)
+                {
+                    Debug.Log(queuedActionList[0].user.charName + "'s speed: " + queuedActionList[0].user.speed);
+                    damageAction(queuedActionList[0].user, queuedActionList[0].attack, queuedActionList[0].target);
+                    queuedActionList.RemoveAt(0);
+                }
+                currentPhase = HeroPhase.END;
+                Debug.Log(currentPhase);
             break;
             case(HeroPhase.END):
                 
@@ -95,6 +105,14 @@ public class HeroStateMachine : MonoBehaviour
         //Debug.Log(enemy.currHP);
     }
 
+    public void damageAction(BaseChar H, BaseAttack A, BaseChar T)
+    {
+        float damage = A.CalculatePhysAttackDamage(H, T);
+        Debug.Log("Damage: " + damage);
+        T.takeDamage(damage);
+        Debug.Log("Target HP Left: " + T.currHP);
+    }
+
     public void createNameplate(string newText)
     {
         GameObject newNameplate = Instantiate(nameplatePrefab, nameplateParent);
@@ -130,7 +148,7 @@ public class HeroStateMachine : MonoBehaviour
     //Adds the target of the action, what the action is, the hero state machine, and a string to store for the status
     public void AddActionQueue(BaseChar H, BaseAttack A, BaseChar T, string S)
     {
-        queuedActionList.Add(new QueuedAction(A, T));
+        queuedActionList.Add(new QueuedAction(H, A, T));
         H.status = S;
         updateNameplate();
         heroIndex++;
