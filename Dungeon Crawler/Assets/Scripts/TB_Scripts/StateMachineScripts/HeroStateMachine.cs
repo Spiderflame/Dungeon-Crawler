@@ -136,7 +136,7 @@ public class HeroStateMachine : MonoBehaviour
         string M_HP = BSM.heroList[x].baseHP.ToString().PadLeft(3);
         string C_MP = BSM.heroList[x].currMP.ToString().PadLeft(3);
         string St = BSM.heroList[x].status.ToString().PadLeft(6);
-        string result = $"<mspace=18px>{x + 1}-{NAME}-{C_HP}/{M_HP}-{C_MP}-{St}</mspace>";
+        string result = $"<mspace=50px>{x + 1}-{NAME}-{C_HP}/{M_HP}-{C_MP}-{St}</mspace>";
         //text.text = $"<mspace=18px>{result}</mspace>";
         return result;
     }
