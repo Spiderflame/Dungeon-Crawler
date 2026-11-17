@@ -637,19 +637,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 270757723}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c2b2d9c57eab4641b86a7162d773065, type: 3}
+  m_Script: {fileID: 11500000, guid: 48dc4162e8e17e04482b960864e996da, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaseChar
+  m_EditorClassIdentifier: Assembly-CSharp::SkeletonEnemy
   charName: 
-  baseHP: 100
-  currHP: 100
-  baseMP: 50
-  currMP: 20
-  mind: 5
-  body: 5
-  speed: 5
-  level: 3
-  status: STATUS
+  baseHP: 0
+  currHP: 0
+  baseMP: 0
+  currMP: 0
+  mind: 0
+  body: 0
+  speed: 0
+  level: 0
+  status: 
   attackBuffStage: 0
   defenseBuffStage: 0
   speedBuffStage: 0
@@ -795,6 +795,54 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &345720151
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 345720152}
+  - component: {fileID: 345720153}
+  m_Layer: 0
+  m_Name: EnemyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &345720152
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345720151}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 301.83405, y: 0, z: 1152.1532}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1366429734}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &345720153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 345720151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 932ed62ed86b3094f9ece680c0ff5a4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStateMachine
+  target: {fileID: 0}
+  BSM: {fileID: 669654363}
+  enemy: {fileID: 270757725}
+  currentPhase: 0
 --- !u!1 &401959132
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,19 +884,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 401959132}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c2b2d9c57eab4641b86a7162d773065, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c451fd3487ec754b9ba987b6c7993f1, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BaseChar
-  charName: Protagonist
-  baseHP: 99
-  currHP: 70
-  baseMP: 20
-  currMP: 20
-  mind: 10
-  body: 10
-  speed: 8
-  level: 5
-  status: STATUS
+  m_EditorClassIdentifier: Assembly-CSharp::MainHero
+  charName: 
+  baseHP: 0
+  currHP: 0
+  baseMP: 0
+  currMP: 0
+  mind: 0
+  body: 0
+  speed: 0
+  level: 0
+  status: 
   attackBuffStage: 0
   defenseBuffStage: 0
   speedBuffStage: 0
@@ -1566,7 +1614,7 @@ MonoBehaviour:
   body: 10
   speed: 3
   level: 5
-  status: STATUS
+  status: 
   attackBuffStage: 0
   defenseBuffStage: 0
   speedBuffStage: 0
@@ -2507,6 +2555,7 @@ Transform:
   m_Children:
   - {fileID: 669654362}
   - {fileID: 2053637890}
+  - {fileID: 345720152}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1497505566
@@ -3041,7 +3090,7 @@ MonoBehaviour:
   body: 20
   speed: 10
   level: 5
-  status: STATUS
+  status: 
   attackBuffStage: 2
   defenseBuffStage: 0
   speedBuffStage: 0
@@ -3233,6 +3282,7 @@ MonoBehaviour:
   enemyGameObject: {fileID: 270757723}
   nameplatePrefab: {fileID: 3678583365574606909, guid: b6d80a8a9b17b964a8f449d1d547f0f1, type: 3}
   nameplateParent: {fileID: 1313747409}
+  ABPanel: {fileID: 2015702733}
   playerNameplates: []
   queuedActionList: []
 --- !u!1 &2074945667

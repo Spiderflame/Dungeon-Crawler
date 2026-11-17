@@ -6,6 +6,7 @@ public class BaseChar : MonoBehaviour
 {
     public string charName;
     
+    #region Stats
     //Total and current HP/MP
     public float baseHP;
     public float currHP;
@@ -18,23 +19,30 @@ public class BaseChar : MonoBehaviour
     public float speed; //related to accuracy, evasion, turn order, and escape chance
 
     public float level;
+    #endregion
 
-    public string status = "STATUS";//only used for Heros
+    public string status = "";//only used for Heros
 
+    #region Buff Stages
     // Buff stages
     public int attackBuffStage = 0;
     public int defenseBuffStage = 0;
     public int speedBuffStage = 0; //buffs accuracy, evasion, turn order, and escape chance
+    #endregion
 
     //key ex: BaseAttack.DamageType.FIRE
     //Able to change an enemies damage resistances
     public Dictionary<BaseAttack.DamageType, float> resistances = new Dictionary<BaseAttack.DamageType, float>(){
-        { BaseAttack.DamageType.PHYS, 1f},
+        { BaseAttack.DamageType.BASH, 1f},
+        { BaseAttack.DamageType.SLASH, 1f},
+        { BaseAttack.DamageType.PIERCE, 1f},
         { BaseAttack.DamageType.FIRE, 1f},
         { BaseAttack.DamageType.ICE, 1f}
     };
 
-    public List<BaseAttack> attacks = new List<BaseAttack>();
+    public List<BaseAction> actions = new List<BaseAction>();
+
+    public BaseAttack basicAttack = ActionDatabase.basicBash; //only used for Heros
 
     public void takeDamage(float damageAmount)
     {

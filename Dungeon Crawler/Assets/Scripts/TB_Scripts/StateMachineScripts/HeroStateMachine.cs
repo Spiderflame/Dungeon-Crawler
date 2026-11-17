@@ -26,8 +26,12 @@ public class HeroStateMachine : MonoBehaviour
     //
     public GameObject nameplatePrefab;
     public Transform nameplateParent;
+
+    public GameObject ABPanel;
+
     public List<PlayerNameplate> playerNameplates = new List<PlayerNameplate>();
     public List<QueuedAction> queuedActionList = new List<QueuedAction>();
+
 
     void Start()
     {
@@ -41,30 +45,35 @@ public class HeroStateMachine : MonoBehaviour
 
     void Update()
     {
-        switch (currentPhase)
-        {
-            case(HeroPhase.PLANNING):
+        if(BSM.battleState == BattleStateMachine.BattleStates.HERO){
+            switch (currentPhase)
+            {
+                case(HeroPhase.PLANNING):
                 
-            break;
-            case(HeroPhase.DONE):
-                heroTurn();
-            break;
-            case(HeroPhase.EXECUTE):
-                //TODO: Remove Buttons
-                queuedActionList.Sort((a, b) => a.user.speed.CompareTo(b.user.speed));
-                queuedActionList.Reverse();
-                while (queuedActionList.Count > 0)
-                {
-                    Debug.Log(queuedActionList[0].user.charName + "'s speed: " + queuedActionList[0].user.speed);
-                    damageAction(queuedActionList[0].user, queuedActionList[0].attack, queuedActionList[0].target);
-                    queuedActionList.RemoveAt(0);
-                }
-                currentPhase = HeroPhase.END;
-                Debug.Log(currentPhase);
-            break;
-            case(HeroPhase.END):
+                break;
+                case(HeroPhase.DONE):
+                    heroTurn();
+                break;
+                case(HeroPhase.EXECUTE):
+                    //TODO: Remove Buttons
+                    ABPanel.SetActive(false);
+
+                    queuedActionList.Sort((a, b) => a.user.speed.CompareTo(b.user.speed));
+                    queuedActionList.Reverse();
+                    while (queuedActionList.Count > 0)
+                    {
+                        Debug.Log(queuedActionList[0].user.charName + "'s speed: " + queuedActionList[0].user.speed);
+                        queuedActionList[0].action.Execute(queuedActionList[0].user, queuedActionList[0].target);
+                        queuedActionList.RemoveAt(0);
+                    }
+                    currentPhase = HeroPhase.END;
+                    BSM.battleState = BattleStateMachine.BattleStates.ENEMY;
+                    Debug.Log(currentPhase);
+                break;
+                case(HeroPhase.END):
                 
-            break;
+                break;
+            }
         }
     }
     
@@ -93,24 +102,11 @@ public class HeroStateMachine : MonoBehaviour
     public void attackButton()
     {
         Debug.Log("Attack Button");
-        BaseAttack attack = new BaseAttack("Normal Attack", BaseAttack.DamageType.PHYS, 1f);
+        
         BaseChar enemy = enemyGameObject.GetComponent<BaseChar>();
         
         //Adds basic attack to action queue which will run when all charcters have acted
-        AddActionQueue(hero, attack, enemy, "ATTACK");
-
-        //float damage = attack.CalculatePhysAttackDamage(hero, enemy);
-        //Debug.Log(damage);
-        //enemy.takeDamage(damage);
-        //Debug.Log(enemy.currHP);
-    }
-
-    public void damageAction(BaseChar H, BaseAttack A, BaseChar T)
-    {
-        float damage = A.CalculatePhysAttackDamage(H, T);
-        Debug.Log("Damage: " + damage);
-        T.takeDamage(damage);
-        Debug.Log("Target HP Left: " + T.currHP);
+        AddActionQueue(hero, hero.basicAttack, enemy, "ATTACK");
     }
 
     public void createNameplate(string newText)
@@ -135,12 +131,12 @@ public class HeroStateMachine : MonoBehaviour
     public string getHeroNamePlate(int x)
     {
         //<mspace=18px>1-CARSON*********-*99/*99-***-STATUS</mspace>
-        string NAME = (BSM.heroList[x].charName.PadRight(15)).ToString();
-        string C_HP = (BSM.heroList[x].currHP.ToString().PadLeft(3));
-        string M_HP = (BSM.heroList[x].baseHP.ToString().PadLeft(3));
-        string C_MP = (BSM.heroList[x].currMP.ToString()).PadLeft(3);
-        string M_MP = BSM.heroList[x].status.ToString().PadLeft(6);
-        string result = $"<mspace=18px>{x + 1}-{NAME}-{C_HP}/{M_HP}-{C_MP}-{M_MP}</mspace>";
+        string NAME = BSM.heroList[x].charName.PadRight(15).ToString();
+        string C_HP = BSM.heroList[x].currHP.ToString().PadLeft(3);
+        string M_HP = BSM.heroList[x].baseHP.ToString().PadLeft(3);
+        string C_MP = BSM.heroList[x].currMP.ToString().PadLeft(3);
+        string St = BSM.heroList[x].status.ToString().PadLeft(6);
+        string result = $"<mspace=18px>{x + 1}-{NAME}-{C_HP}/{M_HP}-{C_MP}-{St}</mspace>";
         //text.text = $"<mspace=18px>{result}</mspace>";
         return result;
     }

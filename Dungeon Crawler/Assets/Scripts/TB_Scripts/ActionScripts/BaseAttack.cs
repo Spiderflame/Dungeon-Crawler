@@ -1,25 +1,29 @@
 using System.Net;
 using JetBrains.Annotations;
 using NUnit.Framework;
+using Unity.VectorGraphics;
 using UnityEngine;
 
-public class BaseAttack
+public class BaseAttack : BaseAction
 {
-    public string attackName;
     public enum DamageType
     {
-        PHYS,
+        BASH,
+        SLASH,
+        PIERCE,
         FIRE,
         ICE
     }
     public DamageType damageType;
     public float potency; //1-normal, 1.5-light, 2-medium, 2.5-heavy, 3-massive
 
-    public BaseAttack(string name, DamageType type, float power)
+    public float cost;
+
+    public BaseAttack(string actionName, string desc, DamageType damageType, float potency, float cost) :base(actionName, desc)
     {
-        attackName = name;
-        damageType = type;
-        potency = power;
+        this.damageType = damageType;
+        this.potency = potency;
+        this.cost = cost;
     }
 
     //Checks if an attack will hit (using player accuracy vs enemy evasion) if so returns true
@@ -38,6 +42,10 @@ public class BaseAttack
                     - d.body * d.getBuffMultipler(d.defenseBuffStage))) 
                         * potency * d.getResistance(damageType);
         damageCalc = Mathf.Ceil(damageCalc);
+        if(damageCalc < 0)
+        {
+            damageCalc = 0;
+        }
         return damageCalc;
     }
 
@@ -51,5 +59,15 @@ public class BaseAttack
                         * potency * defender.getResistance(damageType));
         damageCalc = Mathf.Ceil(damageCalc);
         return damageCalc;
+    }
+
+    public override void Execute(BaseChar user, BaseChar target)
+    {
+        base.Execute(user, target);
+
+        float damage = CalculatePhysAttackDamage(user, target);
+        Debug.Log("Damage: " + damage);
+        target.takeDamage(damage);
+        Debug.Log("Target HP Left: " + target.currHP);
     }
 }

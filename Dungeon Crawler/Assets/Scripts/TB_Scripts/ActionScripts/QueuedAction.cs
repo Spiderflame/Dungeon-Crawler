@@ -4,13 +4,13 @@ using UnityEngine;
 public class QueuedAction
 {
     public BaseChar user;
-    public BaseAttack attack;
+    public BaseAction action;
     public BaseChar target;
 
-    public QueuedAction(BaseChar user, BaseAttack attack, BaseChar target)
+    public QueuedAction(BaseChar user, BaseAction action, BaseChar target)
     {
         this.user = user;
-        this.attack = attack;
+        this.action = action;
         this.target = target;
     }
 }
