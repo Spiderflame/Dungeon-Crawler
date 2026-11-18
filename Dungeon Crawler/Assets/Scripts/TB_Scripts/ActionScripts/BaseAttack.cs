@@ -39,12 +39,12 @@ public class BaseAttack : BaseAction
         float damageCalc = 
             (a.level + 
                 (a.body * a.getBuffMultipler(a.attackBuffStage) 
-                    - d.body * d.getBuffMultipler(d.defenseBuffStage))) 
+                    - d.body / 1.5f * d.getBuffMultipler(d.defenseBuffStage))) 
                         * potency * d.getResistance(damageType);
-        damageCalc = Mathf.Ceil(damageCalc);
-        if(damageCalc < 0)
+        damageCalc = Mathf.Ceil(damageCalc * Random.Range(0.9f, 1.1f));
+        if(damageCalc <= 0)
         {
-            damageCalc = 0;
+            damageCalc = 1f;
         }
         return damageCalc;
     }
@@ -55,9 +55,13 @@ public class BaseAttack : BaseAction
         float damageCalc = 
             ((attacker.level + 
                 (attacker.mind * attacker.getBuffMultipler(attacker.attackBuffStage) 
-                    - defender.body * defender.getBuffMultipler(defender.defenseBuffStage))) 
+                    - defender.body / 1.5f * defender.getBuffMultipler(defender.defenseBuffStage))) 
                         * potency * defender.getResistance(damageType));
-        damageCalc = Mathf.Ceil(damageCalc);
+        damageCalc = Mathf.Ceil(damageCalc * Random.Range(0.8f, 1.2f));
+        if(damageCalc <= 0)
+        {
+            damageCalc = 1f;
+        }
         return damageCalc;
     }
 

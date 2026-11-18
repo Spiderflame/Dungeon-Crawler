@@ -19,5 +19,10 @@ public class MainHero : BaseChar
         currHP = baseHP;
         baseMP = 10;
         currMP = baseMP;
+
+        basicAttack = ActionDatabase.basicBash;
+
+        actions.Add(ActionDatabase.hotBreath);
+        actions.Add(ActionDatabase.coldTouch);
     }
 }

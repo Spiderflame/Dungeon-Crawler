@@ -29,6 +29,11 @@ public class EnemyStateMachine : MonoBehaviour
                 case(EnemyPhase.EXECUTE):
 
                 break;
+                case(EnemyPhase.END):
+                    BSM.battleState = BattleStateMachine.BattleStates.HERO;
+                    Debug.Log(currentPhase);
+                    currentPhase = EnemyPhase.PLANNING;
+                break;
             }
             
         }
@@ -41,5 +46,7 @@ public class EnemyStateMachine : MonoBehaviour
         int num = Random.Range(0, enemy.actions.Count);
         BaseAction currAction = enemy.actions[num];
         Debug.Log(enemy.charName + " has choosen " + currAction.actionName + " on " + target.charName);
+        currAction.Execute(enemy, target);
+        BSM.updateNameplate();
     }
 }

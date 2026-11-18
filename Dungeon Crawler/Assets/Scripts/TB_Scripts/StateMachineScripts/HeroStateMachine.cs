@@ -13,6 +13,7 @@ public class HeroStateMachine : MonoBehaviour
 
     public enum HeroPhase
     {
+        START,
         PLANNING,
         DONE,
         EXECUTE,
@@ -23,13 +24,8 @@ public class HeroStateMachine : MonoBehaviour
 
     public GameObject enemyGameObject;
 
-    //
-    public GameObject nameplatePrefab;
-    public Transform nameplateParent;
-
     public GameObject ABPanel;
 
-    public List<PlayerNameplate> playerNameplates = new List<PlayerNameplate>();
     public List<QueuedAction> queuedActionList = new List<QueuedAction>();
 
 
@@ -39,7 +35,7 @@ public class HeroStateMachine : MonoBehaviour
         currentPhase = HeroPhase.PLANNING;
         for(int i = 0; i < BSM.heroList.Count; i++)
         {
-            createNameplate(getHeroNamePlate(i));
+            createNameplate(BSM.getHeroNamePlate(i));
         }
     }
 
@@ -48,6 +44,17 @@ public class HeroStateMachine : MonoBehaviour
         if(BSM.battleState == BattleStateMachine.BattleStates.HERO){
             switch (currentPhase)
             {
+                case(HeroPhase.START):
+                    heroIndex = 0;
+                    hero = BSM.heroList[heroIndex];
+                    foreach(BaseChar H in BSM.heroList)
+                    {
+                        H.status = "";
+                    }
+                    BSM.updateNameplate();
+                    ABPanel.SetActive(true);
+                    currentPhase = HeroPhase.PLANNING;
+                break;
                 case(HeroPhase.PLANNING):
                 
                 break;
@@ -67,11 +74,11 @@ public class HeroStateMachine : MonoBehaviour
                         queuedActionList.RemoveAt(0);
                     }
                     currentPhase = HeroPhase.END;
-                    BSM.battleState = BattleStateMachine.BattleStates.ENEMY;
-                    Debug.Log(currentPhase);
                 break;
                 case(HeroPhase.END):
-                
+                    BSM.battleState = BattleStateMachine.BattleStates.ENEMY;
+                    Debug.Log(currentPhase);
+                    currentPhase = HeroPhase.START;
                 break;
             }
         }
@@ -99,6 +106,7 @@ public class HeroStateMachine : MonoBehaviour
         }
     }
 
+    #region Buttons
     public void attackButton()
     {
         Debug.Log("Attack Button");
@@ -109,9 +117,26 @@ public class HeroStateMachine : MonoBehaviour
         AddActionQueue(hero, hero.basicAttack, enemy, "ATTACK");
     }
 
+    public void defendButton()
+    {
+        Debug.Log("Defend Button");
+        
+        //TODO: add defend functionality
+        AddActionQueue(hero, null, hero, "DEFEND");
+    }
+
+    public void runButton()
+    {
+        Debug.Log("Run Button");
+        
+        //TODO: add run functionality
+        AddActionQueue(hero, null, hero, "ESCAPE");
+    }
+    #endregion
+    
     public void createNameplate(string newText)
     {
-        GameObject newNameplate = Instantiate(nameplatePrefab, nameplateParent);
+        GameObject newNameplate = Instantiate(BSM.nameplatePrefab, BSM.nameplateParent);
 
         TextMeshProUGUI text = newNameplate.GetComponent<TextMeshProUGUI>();
         text.text = newText;
@@ -120,33 +145,16 @@ public class HeroStateMachine : MonoBehaviour
         plate.hero = this;
         plate.nameplate = text;
 
-        playerNameplates.Add(plate);
+        BSM.playerNameplates.Add(plate);
     }
 
-    public void updateNameplate()
-    {
-        playerNameplates[heroIndex].nameplate.text = getHeroNamePlate(heroIndex);
-    }
-
-    public string getHeroNamePlate(int x)
-    {
-        //<mspace=18px>1-CARSON*********-*99/*99-***-STATUS</mspace>
-        string NAME = BSM.heroList[x].charName.PadRight(15).ToString();
-        string C_HP = BSM.heroList[x].currHP.ToString().PadLeft(3);
-        string M_HP = BSM.heroList[x].baseHP.ToString().PadLeft(3);
-        string C_MP = BSM.heroList[x].currMP.ToString().PadLeft(3);
-        string St = BSM.heroList[x].status.ToString().PadLeft(6);
-        string result = $"<mspace=50px>{x + 1}-{NAME}-{C_HP}/{M_HP}-{C_MP}-{St}</mspace>";
-        //text.text = $"<mspace=18px>{result}</mspace>";
-        return result;
-    }
 
     //Adds the target of the action, what the action is, the hero state machine, and a string to store for the status
-    public void AddActionQueue(BaseChar H, BaseAttack A, BaseChar T, string S)
+    public void AddActionQueue(BaseChar H, BaseAction A, BaseChar T, string S)
     {
         queuedActionList.Add(new QueuedAction(H, A, T));
         H.status = S;
-        updateNameplate();
+        BSM.updateNameplate();
         heroIndex++;
         heroTurn();
     }

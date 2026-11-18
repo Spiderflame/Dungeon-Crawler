@@ -12,9 +12,9 @@ public class SkeletonEnemy : BaseChar
     {
         charName = "Skeleton";
         mind = 3;
-        body = 3;
+        body = 15;
         speed = 3;
-        level = 1;
+        level = 3;
         baseHP = 50;
         currHP = baseHP;
         baseMP = 10;
