@@ -10,15 +10,10 @@ public class DialougeScript : MonoBehaviour
     public float textSpeed;
 
     private int index;
+
+    public bool textDone;
+    private bool isTyping;
     
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        textComponent.text = string.Empty;
-        StartDialouge();
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -36,19 +31,28 @@ public class DialougeScript : MonoBehaviour
         }
     }
 
-    void StartDialouge()
+    public void DisplayMessage(string[] message)
     {
+        StopAllCoroutines();
         index = 0;
+        lines = message;
+        textDone = false;
+        BG.SetActive(true);
         StartCoroutine(TypeLine());
     }
 
     IEnumerator TypeLine()
-    {
+    {        
+        textComponent.text = string.Empty;
+        isTyping = true;
+
         foreach(char c in lines[index].ToCharArray())
         {
             textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
+
+        isTyping = false;
     }
 
     void NextLine()
@@ -61,8 +65,13 @@ public class DialougeScript : MonoBehaviour
         }
         else
         {
+            textDone = true;
             BG.SetActive(false);
-            gameObject.SetActive(false);
         }
+    }
+
+    public bool getTextDone()
+    {
+        return textDone;
     }
 }

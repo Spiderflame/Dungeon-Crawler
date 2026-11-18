@@ -26,8 +26,6 @@ public class HeroStateMachine : MonoBehaviour
 
     public GameObject ABPanel;
 
-    public List<QueuedAction> queuedActionList = new List<QueuedAction>();
-
 
     void Start()
     {
@@ -62,17 +60,19 @@ public class HeroStateMachine : MonoBehaviour
                     heroTurn();
                 break;
                 case(HeroPhase.EXECUTE):
-                    //TODO: Remove Buttons
                     ABPanel.SetActive(false);
+                    //BSM.dialougeBoxBG.SetActive(true);
 
-                    queuedActionList.Sort((a, b) => a.user.speed.CompareTo(b.user.speed));
-                    queuedActionList.Reverse();
-                    while (queuedActionList.Count > 0)
+                    /*BSM.queuedActionList.Sort((a, b) => a.user.speed.CompareTo(b.user.speed));
+                    BSM.queuedActionList.Reverse();
+                    while (BSM.queuedActionList.Count > 0)
                     {
-                        Debug.Log(queuedActionList[0].user.charName + "'s speed: " + queuedActionList[0].user.speed);
-                        queuedActionList[0].action.Execute(queuedActionList[0].user, queuedActionList[0].target);
-                        queuedActionList.RemoveAt(0);
-                    }
+                        Debug.Log(BSM.queuedActionList[0].user.charName + "'s speed: " + BSM.queuedActionList[0].user.speed);
+                        BSM.queuedActionList[0].action.Execute(BSM.queuedActionList[0].user, BSM.queuedActionList[0].target);
+                        BSM.queuedActionList.RemoveAt(0);
+                    }*/
+                    BSM.StartCoroutine(BSM.ExecuteActions());
+                    
                     currentPhase = HeroPhase.END;
                 break;
                 case(HeroPhase.END):
@@ -152,7 +152,7 @@ public class HeroStateMachine : MonoBehaviour
     //Adds the target of the action, what the action is, the hero state machine, and a string to store for the status
     public void AddActionQueue(BaseChar H, BaseAction A, BaseChar T, string S)
     {
-        queuedActionList.Add(new QueuedAction(H, A, T));
+        BSM.queuedActionList.Add(new QueuedAction(H, A, T));
         H.status = S;
         BSM.updateNameplate();
         heroIndex++;

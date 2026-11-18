@@ -1146,9 +1146,13 @@ MonoBehaviour:
   - {fileID: 911869559}
   enemyList:
   - {fileID: 270757725}
+  queuedActionList: []
   nameplatePrefab: {fileID: 3678583365574606909, guid: b6d80a8a9b17b964a8f449d1d547f0f1, type: 3}
   nameplateParent: {fileID: 1313747409}
   playerNameplates: []
+  dialougeBox: {fileID: 1439321248}
+  dialougeBoxBG: {fileID: 2100612667}
+  battleText: {fileID: 0}
 --- !u!1 &723104317
 GameObject:
   m_ObjectHideFlags: 0
@@ -2591,6 +2595,11 @@ Transform:
   - {fileID: 345720152}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1439321248 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8634951200630004014, guid: 5a4599769e1f53a41ae963aefb1813ed, type: 3}
+  m_PrefabInstance: {fileID: 2029906254019270453}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1497505566
 GameObject:
   m_ObjectHideFlags: 0
@@ -3314,7 +3323,6 @@ MonoBehaviour:
   currentPhase: 0
   enemyGameObject: {fileID: 270757723}
   ABPanel: {fileID: 2015702733}
-  queuedActionList: []
 --- !u!1 &2074945667
 GameObject:
   m_ObjectHideFlags: 0
@@ -3557,6 +3565,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &2100612667 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7890762807001863615, guid: 5a4599769e1f53a41ae963aefb1813ed, type: 3}
+  m_PrefabInstance: {fileID: 2029906254019270453}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2111644248
 GameObject:
   m_ObjectHideFlags: 0
@@ -3903,6 +3916,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3121837825331452924, guid: 5a4599769e1f53a41ae963aefb1813ed, type: 3}
+      propertyPath: textSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 7890762807001863615, guid: 5a4599769e1f53a41ae963aefb1813ed, type: 3}
       propertyPath: m_Name
       value: TextPanel
@@ -4071,7 +4088,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5220895019336906314, guid: b6d80a8a9b17b964a8f449d1d547f0f1, type: 3}
       propertyPath: m_text
-      value: <mspace=50px># NAME            HP      MP  STATUS</mspace>
+      value: <mspace=50px># NAME            HIT-PTS MP STATUS</mspace>
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
